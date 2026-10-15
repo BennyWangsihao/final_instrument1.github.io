@@ -37,3 +37,19 @@
         </label>
       <button id="export" disabled>Download WAV ↗</button>
     </section>
+
+    <div class="workspace">
+      <!-- Left panel: beat counter, state, short guide and microphone meter -->
+      <aside class="session">
+        <div class="session-head"><span class="eyebrow">SHARED LOOP</span><span class="tag">8 BEATS</span></div>
+        <div class="beat-display"><strong id="beat">—</strong><span>/ 08</span></div> <div id="timeline" class="timeline" aria-hidden="true"></div> <!-- bars added by script.js -->
+        <p id="state" class="state">READY TO PLAY</p>
+        <div class="session-guide">
+          <h2>Make it together</h2>
+          <p><b>01</b> Try the demo rhythm.</p>
+          <p><b>02</b> Record a sound each.</p>
+          <p><b>03</b> Choose your beats.</p>
+        </div>
+        <label class="meter-label" for="meter">MICROPHONE INPUT</label>
+        <meter id="meter" min="0" max="1" value="0">0</meter>
+      </aside>
