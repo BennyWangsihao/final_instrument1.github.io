@@ -78,3 +78,17 @@ button.primary,
   border-color: var(--green);
   font-weight: bold;
 }
+
+/* Clear outline for keyboard users */
+:focus-visible {
+  outline: 3px solid var(--green);
+  outline-offset: 4px;
+}
+
+/* Centred page column, max 1480px wide */
+.wrap {
+  width: 92%;
+  max-width: 1480px;
+  margin-inline: auto;
+}
+
