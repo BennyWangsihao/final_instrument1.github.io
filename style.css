@@ -22,3 +22,19 @@
   --green: #d0f581;    /* accent and Track A */
   --mint: #9ed9bc;     /* Track B */
 }
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font: 16px/1.6 Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 5px;
+}
