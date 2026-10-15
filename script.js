@@ -58,3 +58,44 @@ async function showCommitHistory() {
     status.textContent = error.message;
   }
 }
+
+/* ========== Part 2: the instrument ========== */
+
+const BEATS = 8;
+const VOLUME = 0.38;    // overall loudness; leaves room for two tracks at full level
+const SILENCE = 0.006;  // quieter than this counts as silence when trimming a recording
+
+let tracks = [];        // Track A and Track B (built in setUpStudio)
+let audio = null;       // the AudioContext, created on the first click
+let speaker = null;     // live sound goes through this; swapping it cuts everything off
+let playing = false;
+let recording = null;   // { track, phase, recorder, timer } while recording
+let timer = null;       // the scheduler's setInterval
+let nextBeat = 0;       // the next beat to book (0–7)
+let nextTime = 0;       // when that beat should sound, on the audio clock
+
+const say = text => { $("#status").textContent = text; };
+const isOn = button => button.getAttribute("aria-pressed") === "true";
+const hasPattern = () => tracks.some(track => !track.muted && track.buttons.some(isOn));
+const beatLength = () => 60 / $("#tempo").value; // seconds per beat
+
+// Enable or disable controls to match what is happening.
+function update() {
+  const busy = playing || recording !== null;
+  $("#play").disabled = busy || !hasPattern();
+  $("#export").disabled = busy || !hasPattern();
+  $("#stop").disabled = !playing && recording?.phase !== "recording";
+  $("#tempo").disabled = busy;
+  $("#state").textContent = playing ? "LOOP IS PLAYING" : recording ? recording.phase.toUpperCase() : "READY TO PLAY";
+
+  tracks.forEach(track => {
+    const isRecording = recording?.track === track && recording.phase === "recording";
+    track.recordButton.textContent = isRecording ? "■ Finish" : "● Record";
+    track.recordButton.classList.toggle("recording", isRecording);
+    track.recordButton.disabled = busy && !isRecording;
+    track.previewButton.disabled = busy;
+    [track.muteButton, track.levelSlider, ...track.buttons].forEach(control => {
+      control.disabled = recording !== null;
+    });
+  });
+}
