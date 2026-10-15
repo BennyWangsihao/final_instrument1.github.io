@@ -3,111 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Loop Together — Pocket Studio</title>
+  <title>Sihao Wang — Loop Together</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <script src="script.js" defer></script> <!-- only used here to load the commit history -->
 </head>
 <body>
   <header class="site-header wrap">
     <a class="brand" href="index.html"><span class="mark">LT</span> LOOP TOGETHER</a>
     <nav aria-label="Main navigation">
-      <a href="index.html">Project</a>
-      <a href="documentation.html">How it works ↗</a>
+      <a href="instrument.html">Open studio ↗</a>
+      <a href="documentation.html">Documentation</a>
     </nav>
   </header>
 
-  <main id="instrument" class="wrap">
-    <div class="studio-heading">
-      <div>
-        <p class="eyebrow">YOUR SHARED SOUND SPACE</p>
-        <h1>Pocket studio<span class="live-dot" aria-hidden="true"></span></h1>
-      </div>
-      <p>Take a sound. Make it yours.</p>
-    </div>
-
-    <!-- Transport: play, stop, tempo and export (shared by both tracks) -->
-    <section class="transport" aria-label="Playback controls">
-      <div class="transport-buttons">
-        <button id="play" class="primary" disabled>▶ Play loop</button>
-        <button id="stop" disabled>■ Stop</button>
-      </div>
-      <label class="tempo-label" for="tempo">
-        TEMPO <output id="tempo-value">100 BPM</output>
-        <input id="tempo" type="range" min="60" max="160" value="100">
-        </label>
-      <button id="export" disabled>Download WAV ↗</button>
+  <main class="wrap project">
+    <!-- Introduction -->
+    <section class="hero">
+      <p class="eyebrow">SIHAO WANG / DIGITAL MEDIA / FINAL INSTRUMENT</p>
+      <h1>A little sound.<br><em>A shared rhythm.</em></h1>
+      <p>Loop Together turns everyday sounds into a rhythm you can make with someone else. Record a sound each, choose its beats and listen to your ideas play together.</p>
+      <a class="button" href="instrument.html">Enter the sound studio ↗</a>
     </section>
 
-    <div class="workspace">
-      <!-- Left panel: beat counter, state, short guide and microphone meter -->
-      <aside class="session">
-        <div class="session-head"><span class="eyebrow">SHARED LOOP</span><span class="tag">8 BEATS</span></div>
-        <div class="beat-display"><strong id="beat">—</strong><span>/ 08</span></div> <div id="timeline" class="timeline" aria-hidden="true"></div> <!-- bars added by script.js -->
-        <p id="state" class="state">READY TO PLAY</p>
-        <div class="session-guide">
-          <h2>Make it together</h2>
-          <p><b>01</b> Try the demo rhythm.</p>
-          <p><b>02</b> Record a sound each.</p>
-          <p><b>03</b> Choose your beats.</p>
+    <!-- Design scenario and response -->
+    <section class="info-grid">
+      <article class="paper">
+        <p class="eyebrow">DESIGN SCENARIO</p>
+        <h2>Collaboration &amp; Social Creation</h2>
+        <p>My project responds to this scenario through shared music-making on one device. It is designed for people who want to experiment together without needing to read music.</p>
+      </article>
+      <article class="paper">
+        <p class="eyebrow">MY RESPONSE</p>
+        <h2>Two contributions. One loop.</h2>
+        <p>Each person has a separate sample track. Both tracks use the same eight-beat timeline, so partners can hear how their choices interact. Clear controls, demo sounds and a downloadable mix support exploration and sharing.</p>
+      </article>
+    </section>
+
+    <section class="paper block">
+      <h2>From exploration to instrument</h2>
+      <p>This version brings together the step sequencing explored in Prototype 1C, text feedback from 2B and sound-level feedback from 2A. Its compact studio layout puts recording and beat selection close together.</p>
+      <div class="links">
+        <a href="documentation.html">Read the design &amp; technical documentation ↗</a>
+        <a href="https://bennywangsihao.github.io/assignment2.html">View Assignment 2 prototypes ↗</a>
+      </div>
+    </section>
+
+    <!-- Commit history: script.js fills the table from commit_history.csv -->
+    <section class="paper block" aria-labelledby="history-title">
+      <p class="eyebrow">DEVELOPMENT PROCESS</p>
+      <h2 id="history-title">Final version · Git history</h2>
+      <p id="history-status" role="status">Loading commit_history.csv…</p>
+      <details>
+        <summary>View commit records</summary>
+        <div class="table-wrap"><table id="history-table"></table></div>
+      </details>
+      <a id="history-download" href="commit_history.csv" download hidden>Download the original CSV</a>
+    </section>
+
+    <!-- Links -->
+    <section class="info-grid">
+      <article class="paper">
+        <h2>Community of Practice</h2>
+        <p>My Miro board is the place for dated participation notes, peer feedback and development reflections.</p>
+        <a href="https://au.miro.com/app/board/u3jVOf9mYWQ=/?share_link_id=469898230549" target="_blank" rel="noopener noreferrer">Open Miro board ↗</a>
+      </article>
+      <article class="paper">
+        <h2>Project links</h2>
+        <div class="links">
+          <a href="https://github.com/BennyWangsihao" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
+          <a href="instrument.html">Final instrument ↗</a>
+          <a href="documentation.html">Documentation ↗</a>
         </div>
-        <label class="meter-label" for="meter">MICROPHONE INPUT</label>
-        <meter id="meter" min="0" max="1" value="0">0</meter>
-      </aside>
+      </article>
+    </section>
+  </main>
 
-      <!-- The two tracks have the same structure; script.js finds them by the .track class -->
-      <section class="track-list" aria-label="Your sound tracks">
-
-        <!-- Track A -->
-        <article class="track">
-          <div class="track-header">
-            <div class="track-identity">
-              <span class="track-letter">A</span>
-              <div><p class="eyebrow">PERSON 01</p><h2>Your first sound</h2></div>
-            </div>
-            <button class="mute" aria-label="Mute Track A" aria-pressed="false">Mute</button>
-          </div>
-          <div class="wave">
-            <canvas aria-label="Waveform for Track A"></canvas>
-            <p class="sample-name">Demo kick · ready to play</p>
-          </div>
-          <div class="track-tools">
-            <div class="buttons">
-              <button class="record">● Record</button>
-              <button class="preview">▷ Listen</button>
-            </div>
-            <label class="level-label">LEVEL <output>70%</output>
-              <input class="level" type="range" min="0" max="100" value="70" aria-label="Track A volume">
-            </label>
-          </div>
-          <div class="step-heading"><span>CHOOSE YOUR BEATS</span><span class="step-hint">Green = on</span></div>
-          <div class="steps" role="group" aria-label="Track A beats"></div> <!-- 8 beat buttons added by script.js -->
-        </article>
-
-                <!-- Track B (track-b switches the colour to mint) -->
-        <article class="track track-b">
-          <div class="track-header">
-            <div class="track-identity">
-              <span class="track-letter">B</span>
-              <div><p class="eyebrow">PERSON 02</p><h2>Your second sound</h2></div>
-            </div>
-            <button class="mute" aria-label="Mute Track B" aria-pressed="false">Mute</button>
-          </div>
-          <div class="wave">
-            <canvas aria-label="Waveform for Track B"></canvas>
-            <p class="sample-name">Demo shaker · ready to play</p>
-          </div>
-          <div class="track-tools">
-            <div class="buttons">
-              <button class="record">● Record</button>
-              <button class="preview">▷ Listen</button>
-            </div>
-            <label class="level-label">LEVEL <output>70%</output>
-              <input class="level" type="range" min="0" max="100" value="70" aria-label="Track B volume">
-            </label>
-          </div>
-          <div class="step-heading"><span>CHOOSE YOUR BEATS</span><span class="step-hint">Green = on</span></div>
-          <div class="steps" role="group" aria-label="Track B beats"></div>
-        </article>
-
-      </section>
-    </div>
+  <footer class="wrap">Sihao Wang · Specialisation Work Index · Looping &amp; Sampling</footer>
+</body>
+</html>
