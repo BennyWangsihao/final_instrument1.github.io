@@ -1,0 +1,24 @@
+/*
+  Loop Together — style.css
+  Shared by all three pages. Sections:
+  1. Colours and base styles
+  2. Header and text
+  3. Instrument: transport bar, session panel, tracks, beat buttons
+  4. Project and documentation pages
+  5. Responsive layout (four screen ranges) and reduced motion
+*/
+
+
+/* ===== 1. Colours and base styles ===== */
+
+:root {
+  color-scheme: dark;
+  --bg: #101310;       /* page background */
+  --surface: #191e19;  /* panels */
+  --raised: #222922;   /* buttons */
+  --ink: #f1f4ec;      /* main text */
+  --muted: #b0b9aa;    /* secondary text */
+  --line: #333d31;     /* borders */
+  --green: #d0f581;    /* accent and Track A */
+  --mint: #9ed9bc;     /* Track B */
+}
