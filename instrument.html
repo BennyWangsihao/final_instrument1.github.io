@@ -53,3 +53,32 @@
         <label class="meter-label" for="meter">MICROPHONE INPUT</label>
         <meter id="meter" min="0" max="1" value="0">0</meter>
       </aside>
+
+      <!-- The two tracks have the same structure; script.js finds them by the .track class -->
+      <section class="track-list" aria-label="Your sound tracks">
+
+        <!-- Track A -->
+        <article class="track">
+          <div class="track-header">
+            <div class="track-identity">
+              <span class="track-letter">A</span>
+              <div><p class="eyebrow">PERSON 01</p><h2>Your first sound</h2></div>
+            </div>
+            <button class="mute" aria-label="Mute Track A" aria-pressed="false">Mute</button>
+          </div>
+          <div class="wave">
+            <canvas aria-label="Waveform for Track A"></canvas>
+            <p class="sample-name">Demo kick · ready to play</p>
+          </div>
+          <div class="track-tools">
+            <div class="buttons">
+              <button class="record">● Record</button>
+              <button class="preview">▷ Listen</button>
+            </div>
+            <label class="level-label">LEVEL <output>70%</output>
+              <input class="level" type="range" min="0" max="100" value="70" aria-label="Track A volume">
+            </label>
+          </div>
+          <div class="step-heading"><span>CHOOSE YOUR BEATS</span><span class="step-hint">Green = on</span></div>
+          <div class="steps" role="group" aria-label="Track A beats"></div> <!-- 8 beat buttons added by script.js -->
+        </article>
