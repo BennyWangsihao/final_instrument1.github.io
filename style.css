@@ -65,3 +65,16 @@ button:hover:not(:disabled),
 .button:hover {
   border-color: var(--green);
 }
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+button.primary,
+.button {
+  background: var(--green);
+  color: #17200e;
+  border-color: var(--green);
+  font-weight: bold;
+}
