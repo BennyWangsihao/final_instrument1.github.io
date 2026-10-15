@@ -82,3 +82,32 @@
           <div class="step-heading"><span>CHOOSE YOUR BEATS</span><span class="step-hint">Green = on</span></div>
           <div class="steps" role="group" aria-label="Track A beats"></div> <!-- 8 beat buttons added by script.js -->
         </article>
+
+                <!-- Track B (track-b switches the colour to mint) -->
+        <article class="track track-b">
+          <div class="track-header">
+            <div class="track-identity">
+              <span class="track-letter">B</span>
+              <div><p class="eyebrow">PERSON 02</p><h2>Your second sound</h2></div>
+            </div>
+            <button class="mute" aria-label="Mute Track B" aria-pressed="false">Mute</button>
+          </div>
+          <div class="wave">
+            <canvas aria-label="Waveform for Track B"></canvas>
+            <p class="sample-name">Demo shaker · ready to play</p>
+          </div>
+          <div class="track-tools">
+            <div class="buttons">
+              <button class="record">● Record</button>
+              <button class="preview">▷ Listen</button>
+            </div>
+            <label class="level-label">LEVEL <output>70%</output>
+              <input class="level" type="range" min="0" max="100" value="70" aria-label="Track B volume">
+            </label>
+          </div>
+          <div class="step-heading"><span>CHOOSE YOUR BEATS</span><span class="step-hint">Green = on</span></div>
+          <div class="steps" role="group" aria-label="Track B beats"></div>
+        </article>
+
+      </section>
+    </div>
