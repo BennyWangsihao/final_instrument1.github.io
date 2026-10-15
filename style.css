@@ -112,3 +112,23 @@ button.primary,
   letter-spacing: 2px;
   text-decoration: none;
 }
+
+/* Round "LT" logo */
+.mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  background: var(--green);
+  color: #17200e;
+  border-radius: 50%;
+  font: 700 14px Arial, sans-serif;
+  letter-spacing: -1px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 13px;
+}
