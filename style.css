@@ -38,3 +38,30 @@ a {
   color: inherit;
   text-underline-offset: 5px;
 }
+
+button,
+input {
+  font: inherit;
+}
+
+/* Buttons, and links styled as buttons */
+button,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 44px; /* comfortable touch target */
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px 16px;
+  background: var(--raised);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled),
+.button:hover {
+  border-color: var(--green);
+}
