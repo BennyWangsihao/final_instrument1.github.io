@@ -342,3 +342,171 @@ input[type="range"] {
   background: var(--ink);
   color: var(--bg);
 }
+
+/* ===== 5. Responsive layout: four screen ranges ===== */
+
+/* Below 840px: session panel becomes a compact row above the tracks */
+@media (max-width: 839px) {
+  .site-header {
+    flex-wrap: wrap;
+    padding: 20px 0;
+    gap: 15px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .session {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px 20px;
+    padding: 16px 20px;
+  }
+
+  .session-head,
+  .timeline,
+  .state {
+    grid-column: 1;
+  }
+
+  .beat-display {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    margin: 0;
+    align-items: center;
+  }
+
+  .beat-display strong {
+    font-size: 50px;
+    letter-spacing: -4px;
+  }
+
+  .state {
+    margin: 0;
+  }
+
+  .session-guide,
+  .studio-heading > p {
+    display: none;
+  }
+
+  .session .meter-label {
+    grid-column: 1;
+    margin-top: 8px;
+  }
+
+  .session meter {
+    grid-column: 1 / -1;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-heading h1 {
+    font-size: 30px;
+  }
+}
+
+/* 840–1199px: narrow session panel beside the tracks */
+@media (min-width: 840px) and (max-width: 1199px) {
+  .workspace {
+    grid-template-columns: 185px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .session {
+    padding: 18px;
+  }
+}
+
+/* 1200–1600px: wider panel and more space */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .workspace {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .track {
+    padding: 26px;
+  }
+}
+
+/* Above 1600px: widest panel; content stays capped at 1480px by .wrap */
+@media (min-width: 1601px) {
+  .workspace {
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .track {
+    padding: 30px;
+  }
+}
+
+/* Narrow phones (up to 540px): beats in two rows of four */
+@media (max-width: 540px) {
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .transport {
+    position: static;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .tempo-label {
+    min-width: 140px;
+    max-width: none;
+  }
+
+  .transport-buttons {
+    width: 100%;
+  }
+
+  .transport-buttons button {
+    flex: 1;
+  }
+
+  #export {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .track {
+    padding: 18px;
+  }
+
+  .track-tools {
+    flex-wrap: wrap;
+  }
+
+  .level-label {
+    width: 100%;
+  }
+
+  .track-header h2 {
+    font-size: 16px;
+  }
+
+  .step-hint {
+    display: none;
+  }
+
+  .paper {
+    padding: 22px;
+  }
+}
+
+/* Respect the "reduce motion" system setting */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
