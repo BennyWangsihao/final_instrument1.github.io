@@ -99,3 +99,35 @@ function update() {
     });
   });
 }
+/* ---------- Sound ---------- */
+
+// Create the audio system on the first click (browsers block sound until the user interacts).
+function startAudio() {
+  if (!audio) {
+    audio = new AudioContext();
+    newSpeaker();
+  }
+  audio.resume();
+}
+// Replace the speaker node. Disconnecting the old one silences anything still playing.
+function newSpeaker() {
+  if (speaker) speaker.disconnect();
+  speaker = audio.createGain();
+  speaker.connect(audio.destination);
+}
+
+// Play one hit of a track's sound at `time`, lasting at most `length` seconds.
+// Used for live sound and for the WAV export. A tiny fade at each end prevents clicks.
+function playHit(context, output, track, time, length) {
+  length = Math.min(length, track.sound.duration);
+  const volume = track.muted ? 0 : track.level * VOLUME;
+  const source = context.createBufferSource();
+  const gain = context.createGain();
+  source.buffer = track.sound;
+  source.connect(gain).connect(output);
+  gain.gain.setValueAtTime(0, time);
+  gain.gain.linearRampToValueAtTime(volume, time + 0.008);
+  gain.gain.setValueAtTime(volume, time + length - 0.008);
+  gain.gain.linearRampToValueAtTime(0, time + length);
+  source.start(time, 0, length);
+}
