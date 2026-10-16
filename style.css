@@ -514,6 +514,7 @@ canvas {
   background: #242c22;
   color: var(--muted);
 }
+
 /* The small ON / OFF label */
 .steps button span {
   display: block;
@@ -538,6 +539,159 @@ canvas {
 /* Keyboard focus ring, so it differs from the playing outline */
 .steps button:focus-visible {
   box-shadow: 0 0 0 6px var(--bg), 0 0 0 9px var(--track-color);
+}
+
+
+/* --- Status message and help --- */
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 0;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--green);
+}
+
+.status-line p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.help {
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+summary {
+  cursor: pointer;
+  padding: 8px 0;
+  color: var(--ink);
+}
+
+.help p {
+  max-width: 800px;
+  margin-top: 12px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font: 11px/1.6 "Courier New", monospace;
+}
+
+
+/* ===== 4. Project and documentation pages ===== */
+
+.hero {
+  padding: 60px 0 40px;
+  max-width: 850px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 5vw, 68px); /* grows with the screen, within limits */
+  line-height: 1.08;
+  letter-spacing: -2px;
+  margin: 22px 0;
+}
+
+.hero em {
+  font-style: normal;
+  color: var(--green);
+}
+
+.hero > p:not(.eyebrow) {
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.hero .button {
+  margin-top: 12px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+/* Content card */
+.paper {
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 12px;
+}
+
+.paper p,
+.paper li {
+  color: var(--muted);
+}
+
+.block {
+  margin: 22px 0;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 12px;
+}
+
+.documentation {
+  max-width: 920px;
+}
+
+/* Tables scroll sideways on small screens */
+.table-wrap {
+  overflow: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+caption {
+  text-align: left;
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+th,
+td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  white-space: pre-wrap; /* keep line breaks in commit messages */
+  overflow-wrap: anywhere;
+}
+
+th {
+  color: var(--green);
+}
+
+#history-table {
+  min-width: 650px;
 }
 
 
@@ -708,4 +862,3 @@ canvas {
     transition: none !important;
   }
 }
-
