@@ -480,6 +480,41 @@ canvas {
   font: 10px "Courier New", monospace;
   letter-spacing: 1px;
 }
+
+/* --- Beat buttons --- */
+
+.step-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  color: var(--muted);
+  font: 10px "Courier New", monospace;
+  letter-spacing: 1px;
+}
+
+.step-hint {
+  letter-spacing: 0;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.steps button {
+  min-width: 0;
+  display: block;
+  min-height: 59px;
+  padding: 8px 0;
+  font: 17px "Courier New", monospace;
+  border-radius: 6px;
+  background: #242c22;
+  color: var(--muted);
+}
+
 /* ===== 5. Responsive layout: four screen ranges ===== */
 
 /* Below 840px: session panel becomes a compact row above the tracks */
