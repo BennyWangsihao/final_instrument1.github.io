@@ -287,4 +287,44 @@ async function startRecording(track) {
   showMicLevel(stream);
   say(`Recording ${track.name}. Make a short sound; press Finish or wait 3 seconds.`);
   update();
+}// Stop recording. keep = false throws the take away (used when leaving the tab).
+function finishRecording(keep = true) {
+  if (recording?.phase !== "recording") return;
+  clearTimeout(recording.timer);
+  recording.keep = keep;
+  recording.phase = "processing";
+  recording.recorder.stop(); // saveRecording() runs once it has stopped
+  if (keep) say("Processing your sound…");
+  update();
+}
+
+// Turn the microphone off, then decode, trim and keep the new sound.
+// The old sound is only replaced if this works.
+async function saveRecording(chunks, stream) {
+  stream.getTracks().forEach(micTrack => micTrack.stop());
+  const { track, keep } = recording;
+  if (keep) {
+    try {
+      const recorded = await audio.decodeAudioData(await new Blob(chunks).arrayBuffer());
+      track.sound = trimSilence(recorded);
+      track.label.textContent = `Your recording · ${track.sound.duration.toFixed(2)}s`;
+      drawWave(track);
+      say(`${track.name} saved. Listen to it, or play the shared loop.`);
+    } catch (error) {
+      say(error.message || "Recording failed. Please try again.");
+    }
+  }
+  recording = null;
+  update();
+}// Cut silence from both ends, keeping 10 ms before and 20 ms after the sound,
+// so a short tap starts right on the beat without losing its attack.
+function trimSilence(sound) {
+  const data = sound.getChannelData(0);
+  const rate = sound.sampleRate;
+  const first = data.findIndex(value => Math.abs(value) >= SILENCE);
+  if (first === -1) throw new Error("No clear sound detected. Try recording closer to the microphone.");
+  const last = data.findLastIndex(value => Math.abs(value) >= SILENCE);
+  const start = Math.max(0, first - Math.round(rate * 0.01));
+  const end = Math.min(data.length, last + Math.round(rate * 0.02));
+  return makeSound(data.slice(start, end), rate);
 }
