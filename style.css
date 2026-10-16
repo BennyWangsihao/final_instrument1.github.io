@@ -468,7 +468,18 @@ canvas {
   color: var(--track-color);
 }
 
+/* Record button turns orange while recording */
+.record.recording {
+  color: #ffd3a0;
+  border-color: #eab278;
+}
 
+.level-label {
+  width: 135px;
+  color: var(--muted);
+  font: 10px "Courier New", monospace;
+  letter-spacing: 1px;
+}
 /* ===== 5. Responsive layout: four screen ranges ===== */
 
 /* Below 840px: session panel becomes a compact row above the tracks */
