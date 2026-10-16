@@ -201,3 +201,46 @@ function startLoop() {
   say("Playing together. Change beats, levels or mute states as you listen.");
   update();
 }
+// Runs every 25 ms and books every beat due in the next 0.1 s on the audio clock.
+// The audio clock is exact, so the rhythm stays steady even when the page is busy.
+function bookBeats() {
+  if (nextTime < audio.currentTime) nextTime = audio.currentTime + 0.05; // fell behind: skip ahead
+  while (nextTime < audio.currentTime + 0.1) {
+    const beat = nextBeat;
+    tracks.forEach(track => {
+      if (isOn(track.buttons[beat])) playHit(audio, speaker, track, nextTime, beatLength());
+    });
+    // Light the beat up when it is heard, not when it is booked.
+    setTimeout(() => { if (playing) highlight(beat); }, (nextTime - audio.currentTime) * 1000);
+    nextBeat = (nextBeat + 1) % BEATS;
+    nextTime += beatLength();
+  }
+}
+
+function stopLoop() {
+  playing = false;
+  clearInterval(timer);
+  newSpeaker(); // silence beats that were already booked
+  highlight(-1);
+
+   /* ---------- Playing the loop ---------- */
+
+  // Runs every 25 ms and books any beats due in the next 0.1 s on the audio
+  // clock. This keeps the rhythm steady even if the page is briefly busy.
+  function schedule() {
+    if (context.state !== "running") {
+      stopPlayback();
+      say("Paused. Press Play loop to continue.");
+      return;
+    }
+    const seconds = beatLength();
+    if (nextTime < context.currentTime) nextTime = context.currentTime + 0.03; // catch up after a delay
+    while (nextTime < context.currentTime + LOOKAHEAD) {
+      tracks.forEach(track => {
+        if (isOn(track.buttons[nextBeat])) playSample(track.buffer, nextTime, seconds, context, track.output);
+      });
+      queue.push({ time: nextTime, beat: nextBeat });
+      nextBeat = (nextBeat + 1) % STEPS;
+      nextTime += seconds;
+    }
+  }
