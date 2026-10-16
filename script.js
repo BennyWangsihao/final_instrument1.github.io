@@ -328,3 +328,20 @@ function trimSilence(sound) {
   const end = Math.min(data.length, last + Math.round(rate * 0.02));
   return makeSound(data.slice(start, end), rate);
 }
+// Show how loud the microphone is while recording.
+// The mic is only measured, never connected to the speakers, so there is no feedback.
+function showMicLevel(stream) {
+  const analyser = audio.createAnalyser();
+  audio.createMediaStreamSource(stream).connect(analyser);
+  const samples = new Float32Array(analyser.fftSize);
+
+  function draw() {
+    if (recording?.phase !== "recording") { $("#meter").value = 0; return; }
+    analyser.getFloatTimeDomainData(samples);
+    const loudness = Math.sqrt(samples.reduce((sum, s) => sum + s * s, 0) / samples.length);
+    $("#meter").value = Math.min(1, loudness * 5);
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
