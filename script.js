@@ -344,6 +344,33 @@ function showMicLevel(stream) {
   }
   draw();
 }
+
+/* ---------- Waveform ---------- */
+
+// Draw a track's sound as bars: a 2px bar every 4px, as tall as the loudest
+// value in that slice of the sound.
+function drawWave(track) {
+  const canvas = track.canvas;
+  const width = canvas.clientWidth;
+  const height = 48;
+  const scale = window.devicePixelRatio || 1; // sharp on high-resolution screens
+  canvas.width = width * scale;
+  canvas.height = height * scale;
+
+  const pen = canvas.getContext("2d");
+  pen.scale(scale, scale);
+  pen.fillStyle = getComputedStyle(track.element).getPropertyValue("--track-color").trim();
+
+  const data = track.sound.getChannelData(0);
+  const bars = Math.floor(width / 4);
+  for (let i = 0; i < bars; i++) {
+    const slice = data.subarray(Math.floor(i * data.length / bars), Math.floor((i + 1) * data.length / bars));
+    const peak = slice.reduce((max, value) => Math.max(max, Math.abs(value)), 0);
+    const barHeight = Math.max(1, Math.min(42, peak * 42));
+    pen.fillRect(i * 4, (height - barHeight) / 2, 2, barHeight);
+  }
+}
+
 /* ---------- WAV export ---------- */
 
 // Render one eight-beat loop offline (faster than real time) and download it.
