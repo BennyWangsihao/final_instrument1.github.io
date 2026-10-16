@@ -188,4 +188,16 @@ function makeDemoSound(type) {
     }
   }
   return makeSound(data, rate);
+}/* ---------- The loop ---------- */
+
+function startLoop() {
+  startAudio();
+  newSpeaker(); // also cuts off a Listen preview that is still playing
+  playing = true;
+  nextBeat = 0;
+  nextTime = audio.currentTime + 0.05;
+  bookBeats();
+  timer = setInterval(bookBeats, 25);
+  say("Playing together. Change beats, levels or mute states as you listen.");
+  update();
 }
