@@ -131,3 +131,61 @@ function playHit(context, output, track, time, length) {
   gain.gain.linearRampToValueAtTime(0, time + length);
   source.start(time, 0, length);
 }
+/* ---------- Sound ---------- */
+
+// Create the audio system on the first click (browsers block sound until the user interacts).
+function startAudio() {
+  if (!audio) {
+    audio = new AudioContext();
+    newSpeaker();
+  }
+  audio.resume();
+}
+
+// Replace the speaker node. Disconnecting the old one silences anything still playing.
+function newSpeaker() {
+  if (speaker) speaker.disconnect();
+  speaker = audio.createGain();
+  speaker.connect(audio.destination);
+}
+
+// Play one hit of a track's sound at `time`, lasting at most `length` seconds.
+// Used for live sound and for the WAV export. A tiny fade at each end prevents clicks.
+function playHit(context, output, track, time, length) {
+  length = Math.min(length, track.sound.duration);
+  const volume = track.muted ? 0 : track.level * VOLUME;
+  const source = context.createBufferSource();
+  const gain = context.createGain();
+  source.buffer = track.sound;
+  source.connect(gain).connect(output);
+  gain.gain.setValueAtTime(0, time);
+  gain.gain.linearRampToValueAtTime(volume, time + 0.008);
+  gain.gain.setValueAtTime(volume, time + length - 0.008);
+  gain.gain.linearRampToValueAtTime(0, time + length);
+  source.start(time, 0, length);
+}
+
+// Wrap raw sample values (-1 to 1) in an AudioBuffer.
+function makeSound(data, rate) {
+  const sound = new AudioBuffer({ length: data.length, sampleRate: rate });
+  sound.copyToChannel(data, 0);
+  return sound;
+}
+
+// Built-in demo sounds, made in code so they work without a microphone.
+// "kick": a low tone that drops in pitch and fades. "shaker": a short burst of fading noise.
+function makeDemoSound(type) {
+  const rate = 44100;
+  const data = new Float32Array(Math.ceil(rate * 0.22));
+  let phase = 0;
+  for (let i = 0; i < data.length; i++) {
+    const t = i / rate;
+    if (type === "shaker") {
+      data[i] = (Math.random() * 2 - 1) * Math.exp(-t * 45);
+    } else {
+      phase += 2 * Math.PI * (55 + 110 * Math.exp(-t * 35)) / rate;
+      data[i] = Math.sin(phase) * Math.exp(-t * 22);
+    }
+  }
+  return makeSound(data, rate);
+}
