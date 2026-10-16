@@ -59,6 +59,7 @@ async function showCommitHistory() {
   }
 }
 
+
 /* ========== Part 2: the instrument ========== */
 
 const BEATS = 8;
@@ -99,38 +100,8 @@ function update() {
     });
   });
 }
-/* ---------- Sound ---------- */
 
-// Create the audio system on the first click (browsers block sound until the user interacts).
-function startAudio() {
-  if (!audio) {
-    audio = new AudioContext();
-    newSpeaker();
-  }
-  audio.resume();
-}
-// Replace the speaker node. Disconnecting the old one silences anything still playing.
-function newSpeaker() {
-  if (speaker) speaker.disconnect();
-  speaker = audio.createGain();
-  speaker.connect(audio.destination);
-}
 
-// Play one hit of a track's sound at `time`, lasting at most `length` seconds.
-// Used for live sound and for the WAV export. A tiny fade at each end prevents clicks.
-function playHit(context, output, track, time, length) {
-  length = Math.min(length, track.sound.duration);
-  const volume = track.muted ? 0 : track.level * VOLUME;
-  const source = context.createBufferSource();
-  const gain = context.createGain();
-  source.buffer = track.sound;
-  source.connect(gain).connect(output);
-  gain.gain.setValueAtTime(0, time);
-  gain.gain.linearRampToValueAtTime(volume, time + 0.008);
-  gain.gain.setValueAtTime(volume, time + length - 0.008);
-  gain.gain.linearRampToValueAtTime(0, time + length);
-  source.start(time, 0, length);
-}
 /* ---------- Sound ---------- */
 
 // Create the audio system on the first click (browsers block sound until the user interacts).
@@ -188,7 +159,10 @@ function makeDemoSound(type) {
     }
   }
   return makeSound(data, rate);
-}/* ---------- The loop ---------- */
+}
+
+
+/* ---------- The loop ---------- */
 
 function startLoop() {
   startAudio();
@@ -201,6 +175,7 @@ function startLoop() {
   say("Playing together. Change beats, levels or mute states as you listen.");
   update();
 }
+
 // Runs every 25 ms and books every beat due in the next 0.1 s on the audio clock.
 // The audio clock is exact, so the rhythm stays steady even when the page is busy.
 function bookBeats() {
@@ -222,28 +197,9 @@ function stopLoop() {
   clearInterval(timer);
   newSpeaker(); // silence beats that were already booked
   highlight(-1);
+}
 
-   /* ---------- Playing the loop ---------- */
-
-  // Runs every 25 ms and books any beats due in the next 0.1 s on the audio
-  // clock. This keeps the rhythm steady even if the page is briefly busy.
-  function schedule() {
-    if (context.state !== "running") {
-      stopPlayback();
-      say("Paused. Press Play loop to continue.");
-      return;
-    }
-    const seconds = beatLength();
-    if (nextTime < context.currentTime) nextTime = context.currentTime + 0.03; // catch up after a delay
-    while (nextTime < context.currentTime + LOOKAHEAD) {
-      tracks.forEach(track => {
-        if (isOn(track.buttons[nextBeat])) playSample(track.buffer, nextTime, seconds, context, track.output);
-      });
-      queue.push({ time: nextTime, beat: nextBeat });
-      nextBeat = (nextBeat + 1) % STEPS;
-      nextTime += seconds;
-    }
-  }// Highlight one beat on both tracks and on the timeline (-1 clears the highlight).
+// Highlight one beat on both tracks and on the timeline (-1 clears the highlight).
 function highlight(beat) {
   $("#beat").textContent = beat < 0 ? "—" : "0" + (beat + 1);
   const rows = [...tracks.map(track => track.buttons), [...$("#timeline").children]];
@@ -287,7 +243,9 @@ async function startRecording(track) {
   showMicLevel(stream);
   say(`Recording ${track.name}. Make a short sound; press Finish or wait 3 seconds.`);
   update();
-}// Stop recording. keep = false throws the take away (used when leaving the tab).
+}
+
+// Stop recording. keep = false throws the take away (used when leaving the tab).
 function finishRecording(keep = true) {
   if (recording?.phase !== "recording") return;
   clearTimeout(recording.timer);
@@ -316,7 +274,9 @@ async function saveRecording(chunks, stream) {
   }
   recording = null;
   update();
-}// Cut silence from both ends, keeping 10 ms before and 20 ms after the sound,
+}
+
+// Cut silence from both ends, keeping 10 ms before and 20 ms after the sound,
 // so a short tap starts right on the beat without losing its attack.
 function trimSilence(sound) {
   const data = sound.getChannelData(0);
@@ -328,6 +288,7 @@ function trimSilence(sound) {
   const end = Math.min(data.length, last + Math.round(rate * 0.02));
   return makeSound(data.slice(start, end), rate);
 }
+
 // Show how loud the microphone is while recording.
 // The mic is only measured, never connected to the speakers, so there is no feedback.
 function showMicLevel(stream) {
@@ -344,6 +305,7 @@ function showMicLevel(stream) {
   }
   draw();
 }
+
 
 /* ---------- Waveform ---------- */
 
@@ -371,6 +333,7 @@ function drawWave(track) {
   }
 }
 
+
 /* ---------- WAV export ---------- */
 
 // Render one eight-beat loop offline (faster than real time) and download it.
@@ -389,7 +352,8 @@ async function exportWav() {
   link.click();
   say("Your eight-beat WAV is ready to download and share.");
 }
-/ Turn audio into a mono 16-bit WAV file: a 44-byte header, then the samples.
+
+// Turn audio into a mono 16-bit WAV file: a 44-byte header, then the samples.
 function toWav(buffer) {
   const samples = buffer.getChannelData(0);
   const rate = buffer.sampleRate;
@@ -413,3 +377,109 @@ function toWav(buffer) {
   samples.forEach((s, i) => view.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 32767, true));
   return new Blob([view], { type: "audio/wav" });
 }
+
+
+/* ---------- Setting up the page ---------- */
+
+// Create a track's eight beat buttons. onBeats = beats that start switched on.
+function makeBeatButtons(track, onBeats) {
+  for (let i = 0; i < BEATS; i++) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.setAttribute("aria-label", `${track.name}, beat ${i + 1}`);
+    button.innerHTML = `${i + 1}<span></span>`;
+    setBeat(button, onBeats.includes(i));
+    button.onclick = () => { setBeat(button, !isOn(button)); update(); };
+    track.stepsBox.append(button);
+    track.buttons.push(button);
+  }
+}
+
+// Switch a beat button on or off and update its ON/OFF label.
+function setBeat(button, on) {
+  button.setAttribute("aria-pressed", on);
+  button.querySelector("span").textContent = on ? "ON" : "OFF";
+}
+
+function setUpStudio() {
+  tracks = [...document.querySelectorAll(".track")].map((element, i) => {
+    const find = selector => element.querySelector(selector);
+    return {
+      element,
+      name: i === 0 ? "Track A" : "Track B",
+      sound: makeDemoSound(i === 0 ? "kick" : "shaker"),
+      muted: false,
+      level: 0.7,
+      buttons: [],
+      recordButton: find(".record"),
+      previewButton: find(".preview"),
+      muteButton: find(".mute"),
+      levelSlider: find(".level"),
+      levelText: find("output"),
+      label: find(".sample-name"),
+      canvas: find("canvas"),
+      stepsBox: find(".steps")
+    };
+  });
+
+  tracks.forEach((track, i) => {
+    makeBeatButtons(track, i === 0 ? [0, 4] : [2, 6]); // demo rhythm: A on 1 and 5, B on 3 and 7
+
+    // Record becomes Finish while this track is recording.
+    track.recordButton.onclick = () => (recording ? finishRecording() : startRecording(track));
+
+    // Listen plays the whole sound once.
+    track.previewButton.onclick = () => {
+      startAudio();
+      playHit(audio, speaker, track, audio.currentTime, track.sound.duration);
+      say(track.muted
+        ? `${track.name} is muted. Unmute it to listen.`
+        : `${track.name} sample preview. Press Play loop to hear the pattern.`);
+    };
+
+    track.muteButton.onclick = () => {
+      track.muted = !track.muted;
+      track.muteButton.setAttribute("aria-pressed", track.muted);
+      track.muteButton.textContent = track.muted ? "Muted" : "Mute";
+      update();
+    };
+
+    track.levelSlider.oninput = () => {
+      track.level = track.levelSlider.value / 100;
+      track.levelText.textContent = track.levelSlider.value + "%";
+    };
+  });
+
+  for (let i = 0; i < BEATS; i++) $("#timeline").append(document.createElement("i"));
+
+  // Draw the waveforms now, and again whenever the layout changes size.
+  new ResizeObserver(() => tracks.forEach(drawWave)).observe($("#instrument"));
+
+  $("#play").onclick = startLoop;
+  $("#export").onclick = exportWav;
+  $("#tempo").oninput = () => { $("#tempo-value").textContent = $("#tempo").value + " BPM"; };
+  $("#stop").onclick = () => {
+    if (recording) return finishRecording(); // Stop while recording keeps the take
+    stopLoop();
+    say("Stopped. Your sounds and pattern are still here.");
+    update();
+  };
+
+  // Leaving the tab stops the loop and cancels an unfinished recording.
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden || !(playing || recording?.phase === "recording")) return;
+    if (playing) stopLoop();
+    finishRecording(false);
+    say("Paused because you left this tab. Any unfinished recording was cancelled.");
+    update();
+  });
+
+  say("Your demo rhythm is ready. Press Play loop, then replace either sound with your own recording.");
+  update();
+}
+
+
+/* ========== Start ========== */
+
+if ($("#history-table")) showCommitHistory();
+if ($("#instrument")) setUpStudio();
