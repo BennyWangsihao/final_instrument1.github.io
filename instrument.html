@@ -23,4 +23,17 @@
       </div>
       <p>Take a sound. Make it yours.</p>
     </div>
-    
+    <!-- Transport: play, stop, tempo and export (shared by both tracks) -->
+    <section class="transport" aria-label="Playback controls">
+      <div class="transport-buttons">
+        <button id="play" class="primary" disabled>▶ Play loop</button>
+        <button id="stop" disabled>■ Stop</button>
+      </div>
+      <label class="tempo-label" for="tempo">
+        TEMPO <output id="tempo-value">100 BPM</output>
+        <input id="tempo" type="range" min="60" max="160" value="100">
+      </label>
+      <button id="export" disabled>Download WAV ↗</button>
+    </section>
+
+    <div class="workspace">
