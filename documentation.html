@@ -4,27 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Loop Together — Design and Technical Documentation</title>
-  <!-- Keep the styles in a separate file so they are easy to edit. -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Use the existing shared stylesheet. -->
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <a class="skip-link" href="#content">Skip to content</a>
-
-  <header class="page-header" id="top">
-    <div class="container">
-      <h1>Loop Together</h1>
-      <p class="subtitle">Design and Technical Documentation · Sihao Wang</p>
-      <!-- These pages should be in the same project folder. -->
-      <nav aria-label="Main navigation">
-        <a href="index.html">Home</a>
-        <a href="instrument.html">Open instrument</a>
-      </nav>
-    </div>
+  <header class="site-header wrap" id="top">
+    <a class="brand" href="index.html">
+      <span class="mark" aria-hidden="true">LT</span>
+      <span>LOOP TOGETHER</span>
+    </a>
+    <!-- These pages should be in the same project folder. -->
+    <nav aria-label="Main navigation">
+      <a href="#content">Skip to content</a>
+      <a href="index.html">Home</a>
+      <a href="instrument.html">Open instrument</a>
+    </nav>
   </header>
 
-  <main class="container" id="content">
+  <main class="wrap documentation" id="content">
+    <div class="hero">
+      <p class="eyebrow">SIHAO WANG / ASSIGNMENT 3</p>
+      <h1>Loop Together<br><em>Documentation</em></h1>
+      <p>Design choices, core features and how the instrument works.</p>
+      <a class="button" href="instrument.html">Open the instrument</a>
+    </div>
     <!-- Section links work without JavaScript. -->
-    <nav class="contents" aria-label="On this page">
+    <nav class="paper block" aria-label="On this page">
       <a href="#about-the-project">Project</a>
       <a href="#ui-layout-and-visual-choices">UI design</a>
       <a href="#ux-learning-and-control">UX design</a>
@@ -33,7 +38,7 @@
     </nav>
 
     <!-- Explain the project before describing the controls. -->
-    <section class="section" id="about-the-project">
+    <section class="paper block" id="about-the-project">
       <h2>About the project</h2>
       <p>
         Loop Together is a browser instrument for making a short rhythm with another
@@ -48,7 +53,7 @@
       </p>
     </section>
 
-    <section class="section" id="from-the-prototypes-to-the-final-design">
+    <section class="paper block" id="from-the-prototypes-to-the-final-design">
       <h2>From the prototypes to the final design</h2>
       <p>
         My tutor responded positively to the loop experiments in Area 1, but asked for
@@ -76,7 +81,7 @@
       </p>
     </section>
 
-    <section class="section" id="recording-and-sharing-control">
+    <section class="paper block" id="recording-and-sharing-control">
       <h2>Recording and sharing control</h2>
       <p>
         The instrument has Track A and Track B. Each person can use one track. Both
@@ -99,7 +104,7 @@
       </p>
     </section>
 
-    <section class="section" id="making-the-loop">
+    <section class="paper block" id="making-the-loop">
       <h2>Making the loop</h2>
       <p>
         Each track has eight numbered beat buttons. Turning a button on places the sound
@@ -117,19 +122,20 @@
         their sounds. Mute helps them hear one part at a time.
       </p>
 
-      <!-- Keep the picture and its caption together. -->
-      <figure class="doc-figure">
-        <a class="figure-link" href="images/loop-pattern.svg" target="_blank" rel="noopener"
+      <!-- The inline size keeps this image inside the card on small screens. -->
+      <figure class="block">
+        <a href="images/loop-pattern.svg" target="_blank" rel="noopener"
            aria-label="Open a larger version of figure 1 in a new tab">
           <img src="images/loop-pattern.svg" width="800" height="818"
+               style="display: block; width: 100%; height: auto;"
                alt="Eight-beat example: Track A plays on beats 1 and 5; Track B plays on 3 and 7. The cycle returns to beat 1 after beat 8." loading="lazy" decoding="async">
         </a>
-        <figcaption>Figure 1. An example eight-beat pattern. The outline marks the current beat. Design diagram created with ChatGPT. Click the image to enlarge.</figcaption>
+        <figcaption class="block"><p>Figure 1. An example eight-beat pattern. The outline marks the current beat. Design diagram created with ChatGPT. Click the image to enlarge.</p></figcaption>
       </figure>
     </section>
 
     <!-- Explain the steps a new user follows. -->
-    <section class="section" id="ux-learning-and-control">
+    <section class="paper block" id="ux-learning-and-control">
       <h2>UX: learning and control</h2>
       <p>
         I want the first action to be simple. Users can press Play loop with the demo
@@ -155,18 +161,19 @@
       </p>
 
       <!-- Keep the picture and its caption together. -->
-      <figure class="doc-figure">
-        <a class="figure-link" href="images/recording-flow.svg" target="_blank" rel="noopener"
+      <figure class="block">
+        <a href="images/recording-flow.svg" target="_blank" rel="noopener"
            aria-label="Open a larger version of figure 2 in a new tab">
           <img src="images/recording-flow.svg" width="800" height="864"
+               style="display: block; width: 100%; height: auto;"
                alt="Recording steps: Record and allow the microphone, Finish or wait three seconds, Listen to the saved sound, then choose beats and Play loop." loading="lazy" decoding="async">
         </a>
-        <figcaption>Figure 2. The recording steps for either track. Demo sounds provide another starting point. Design diagram created with ChatGPT. Click the image to enlarge.</figcaption>
+        <figcaption class="block"><p>Figure 2. The recording steps for either track. Demo sounds provide another starting point. Design diagram created with ChatGPT. Click the image to enlarge.</p></figcaption>
       </figure>
     </section>
 
     <!-- Use plain language to explain the audio code. -->
-    <section class="section" id="how-the-sound-works">
+    <section class="paper block" id="how-the-sound-works">
       <h2>How the sound works</h2>
       <p>
         The extended technique is Looping &amp; Sampling. Sampling means recording a
@@ -192,7 +199,7 @@
     </section>
 
     <!-- Connect the visual choices to their purpose. -->
-    <section class="section" id="ui-layout-and-visual-choices">
+    <section class="paper block" id="ui-layout-and-visual-choices">
       <h2>UI: layout and visual choices</h2>
       <p>
         I kept the dark background and green colours from the prototypes to give the
@@ -215,17 +222,18 @@
       </p>
 
       <!-- Keep the picture and its caption together. -->
-      <figure class="doc-figure">
-        <a class="figure-link" href="images/track-layout.svg" target="_blank" rel="noopener"
+      <figure class="block">
+        <a href="images/track-layout.svg" target="_blank" rel="noopener"
            aria-label="Open a larger version of figure 3 in a new tab">
           <img src="images/track-layout.svg" width="960" height="796"
+               style="display: block; width: 100%; height: auto;"
                alt="Layout sketch: shared Play, Stop and tempo controls sit above two separate tracks. Each track has Record, Listen, Mute, volume and eight beat buttons." loading="lazy" decoding="async">
         </a>
-        <figcaption>Figure 3. A layout sketch showing shared controls and separate track controls. The sample shapes and pattern are illustrative. Created with ChatGPT. Click the image to enlarge.</figcaption>
+        <figcaption class="block"><p>Figure 3. A layout sketch showing shared controls and separate track controls. The sample shapes and pattern are illustrative. Created with ChatGPT. Click the image to enlarge.</p></figcaption>
       </figure>
     </section>
 
-    <section class="section" id="accessibility-and-screen-sizes">
+    <section class="paper block" id="accessibility-and-screen-sizes">
       <h2>Accessibility and screen sizes</h2>
       <p>
         The interface uses text as well as colour. The current beat has an outline, and
@@ -279,7 +287,7 @@
       </p>
     </section>
 
-    <section class="section" id="saving-the-result">
+    <section class="paper block" id="saving-the-result">
       <h2>Saving the result</h2>
       <p>
         Download WAV saves one eight-beat cycle using the current pattern, tempo,
@@ -293,7 +301,7 @@
     </section>
 
     <!-- Keep planned tests separate from completed results. -->
-    <section class="section" id="peer-testing-and-next-steps">
+    <section class="paper block" id="peer-testing-and-next-steps">
       <h2>Peer testing and next steps</h2>
       <p>
         My tutor noted that the A2 testing form had useful questions but did not include
@@ -316,7 +324,7 @@
       </p>
     </section>
 
-    <section class="section" id="code-comments-commits-and-community-records">
+    <section class="paper block" id="code-comments-commits-and-community-records">
       <h2>Code comments, commits and community records</h2>
       <p>
         The feedback also showed that my code needed more comments. I will add short
@@ -338,7 +346,7 @@
       </p>
     </section>
 
-    <section class="section" id="current-limits">
+    <section class="paper block" id="current-limits">
       <h2>Current limits</h2>
       <p>
         The instrument supports two people on one device. It does not provide online
@@ -349,7 +357,7 @@
       </p>
     </section>
 
-    <section class="section" id="ai-acknowledgement">
+    <section class="paper block" id="ai-acknowledgement">
       <h2>AI acknowledgement</h2>
       <p>
         I used OpenAI ChatGPT to help generate and revise parts of the HTML, CSS,
@@ -359,15 +367,13 @@
 
   </main>
 
-  <footer>
-    <div class="container">
-      <p>Sihao Wang · Loop Together · Assignment 3</p>
-      <nav aria-label="Project links">
-        <a href="https://github.com/BennyWangsihao">GitHub</a>
-        <a href="https://au.miro.com/app/board/u3jVOf9mYWQ=/?share_link_id=469898230549">Community of Practice</a>
-        <a href="#top">Back to top</a>
-      </nav>
-    </div>
+  <footer class="wrap">
+    <p>Sihao Wang · Loop Together · Assignment 3</p>
+    <nav aria-label="Project links">
+      <a href="https://github.com/BennyWangsihao">GitHub</a>
+      <a href="https://au.miro.com/app/board/u3jVOf9mYWQ=/?share_link_id=469898230549">Community of Practice</a>
+      <a href="#top">Back to top</a>
+    </nav>
   </footer>
 </body>
 </html>
