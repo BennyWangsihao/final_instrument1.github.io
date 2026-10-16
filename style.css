@@ -514,6 +514,32 @@ canvas {
   background: #242c22;
   color: var(--muted);
 }
+/* The small ON / OFF label */
+.steps button span {
+  display: block;
+  font-size: 9px;
+  margin-top: 7px;
+  letter-spacing: 1px;
+}
+
+/* Beat switched on: filled with the track colour */
+.steps button[aria-pressed="true"] {
+  background: var(--track-color);
+  color: #182112;
+  border-color: var(--track-color);
+}
+
+/* Beat that is playing right now */
+.steps button.current {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Keyboard focus ring, so it differs from the playing outline */
+.steps button:focus-visible {
+  box-shadow: 0 0 0 6px var(--bg), 0 0 0 9px var(--track-color);
+}
+
 
 /* ===== 5. Responsive layout: four screen ranges ===== */
 
