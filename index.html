@@ -3,7 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Loop Together — Pocket Studio</title>
+  <title>Sihao Wang — Loop Together</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <script src="script.js" defer></script> <!-- only used here to load the commit history -->
 </head>
+<body>
+  <header class="site-header wrap">
+    <a class="brand" href="index.html"><span class="mark">LT</span> LOOP TOGETHER</a>
+    <nav aria-label="Main navigation">
+      <a href="instrument.html">Open studio ↗</a>
+      <a href="documentation.html">Documentation</a>
+    </nav>
+  </header>
+
+  <main class="wrap project">
+    <!-- Introduction -->
+    <section class="hero">
+      <p class="eyebrow">SIHAO WANG / DIGITAL MEDIA / FINAL INSTRUMENT</p>
+      <h1>A little sound.<br><em>A shared rhythm.</em></h1>
+      <p>Loop Together turns everyday sounds into a rhythm you can make with someone else. Record a sound each, choose its beats and listen to your ideas play together.</p>
+      <a class="button" href="instrument.html">Enter the sound studio ↗</a>
+    </section>
+
+    <!-- Design scenario and response -->
+    <section class="info-grid">
+      <article class="paper">
+        <p class="eyebrow">DESIGN SCENARIO</p>
+        <h2>Collaboration &amp; Social Creation</h2>
+        <p>My project responds to this scenario through shared music-making on one device. It is designed for people who want to experiment together without needing to read music.</p>
+      </article>
+      <article class="paper">
+        <p class="eyebrow">MY RESPONSE</p>
+        <h2>Two contributions. One loop.</h2>
+        <p>Each person has a separate sample track. Both tracks use the same eight-beat timeline, so partners can hear how their choices interact. Clear controls, demo sounds and a downloadable mix support exploration and sharing.</p>
+      </article>
+    </section>
+
+    <section class="paper block">
+      <h2>From exploration to instrument</h2>
+      <p>This version brings together the step sequencing explored in Prototype 1C, text feedback from 2B and sound-level feedback from 2A. Its compact studio layout puts recording and beat selection close together.</p>
+      <div class="links">
+        <a href="documentation.html">Read the design &amp; technical documentation ↗</a>
+        <a href="https://bennywangsihao.github.io/assignment2.html">View Assignment 2 prototypes ↗</a>
+      </div>
+    </section>
+
+    <!-- Commit history: script.js fills the table from commit_history.csv -->
+    <section class="paper block" aria-labelledby="history-title">
+      <p class="eyebrow">DEVELOPMENT PROCESS</p>
+      <h2 id="history-title">Final version · Git history</h2>
+      <p id="history-status" role="status">Loading commit_history.csv…</p>
+      <details>
+        <summary>View commit records</summary>
+        <div class="table-wrap"><table id="history-table"></table></div>
+      </details>
+      <a id="history-download" href="commit_history.csv" download hidden>Download the original CSV</a>
+    </section>
+
+    <!-- Links -->
+    <section class="info-grid">
+      <article class="paper">
+        <h2>Community of Practice</h2>
+        <p>My Miro board is the place for dated participation notes, peer feedback and development reflections.</p>
+        <a href="https://au.miro.com/app/board/u3jVOf9mYWQ=/?share_link_id=469898230549" target="_blank" rel="noopener noreferrer">Open Miro board ↗</a>
+      </article>
+      <article class="paper">
+        <h2>Project links</h2>
+        <div class="links">
+          <a href="https://github.com/BennyWangsihao" target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
+          <a href="instrument.html">Final instrument ↗</a>
+          <a href="documentation.html">Documentation ↗</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="wrap">Sihao Wang · Specialisation Work Index · Looping &amp; Sampling</footer>
+</body>
+</html>

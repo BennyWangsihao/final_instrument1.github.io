@@ -243,4 +243,48 @@ function stopLoop() {
       nextBeat = (nextBeat + 1) % STEPS;
       nextTime += seconds;
     }
+  }// Highlight one beat on both tracks and on the timeline (-1 clears the highlight).
+function highlight(beat) {
+  $("#beat").textContent = beat < 0 ? "—" : "0" + (beat + 1);
+  const rows = [...tracks.map(track => track.buttons), [...$("#timeline").children]];
+  rows.forEach(row => row.forEach((element, i) => element.classList.toggle("current", i === beat)));
+}
+
+
+/* ---------- Recording ---------- */
+
+// Record up to 3 seconds from the microphone into a track.
+async function startRecording(track) {
+  if (!window.isSecureContext || !window.MediaRecorder) {
+    say("Recording is unavailable here. Open the published HTTPS page and allow microphone access. You can still try the demo sounds.");
+    return;
   }
+  startAudio();
+  recording = { track, phase: "permission" };
+  say(`Allow microphone access for ${track.name}.`);
+  update();
+
+  let stream;
+  try {
+    // Turn off voice processing so short taps and claps are not filtered out.
+    stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false } });
+  } catch (error) {
+    recording = null;
+    say(error.name === "NotAllowedError"
+      ? "Microphone access is blocked. Allow it in your browser, or use the demo sounds."
+      : "No microphone could be used. Connect one, or use the demo sounds.");
+    update();
+    return;
+  }
+
+  const chunks = [];
+  recording.recorder = new MediaRecorder(stream);
+  recording.recorder.ondataavailable = event => chunks.push(event.data);
+  recording.recorder.onstop = () => saveRecording(chunks, stream);
+  recording.recorder.start();
+  recording.phase = "recording";
+  recording.timer = setTimeout(finishRecording, 3000);
+  showMicLevel(stream);
+  say(`Recording ${track.name}. Make a short sound; press Finish or wait 3 seconds.`);
+  update();
+}
