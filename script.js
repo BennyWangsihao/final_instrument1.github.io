@@ -344,4 +344,45 @@ function showMicLevel(stream) {
   }
   draw();
 }
+/* ---------- WAV export ---------- */
 
+// Render one eight-beat loop offline (faster than real time) and download it.
+async function exportWav() {
+  const beat = beatLength();
+  const offline = new OfflineAudioContext(1, Math.round(44100 * beat * BEATS), 44100);
+  tracks.forEach(track => track.buttons.forEach((button, i) => {
+    if (isOn(button)) playHit(offline, offline.destination, track, i * beat, beat);
+  }));
+
+  say("Preparing your WAV…");
+  const mix = await offline.startRendering();
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(toWav(mix));
+  link.download = "loop-together.wav";
+  link.click();
+  say("Your eight-beat WAV is ready to download and share.");
+}
+/ Turn audio into a mono 16-bit WAV file: a 44-byte header, then the samples.
+function toWav(buffer) {
+  const samples = buffer.getChannelData(0);
+  const rate = buffer.sampleRate;
+  const view = new DataView(new ArrayBuffer(44 + samples.length * 2));
+  const text = (offset, word) => [...word].forEach((char, i) => view.setUint8(offset + i, char.charCodeAt(0)));
+
+  text(0, "RIFF");
+  view.setUint32(4, 36 + samples.length * 2, true); // size of the rest of the file
+  text(8, "WAVEfmt ");
+  view.setUint32(16, 16, true);                     // size of the format section
+  view.setUint16(20, 1, true);                      // plain PCM audio
+  view.setUint16(22, 1, true);                      // mono
+  view.setUint32(24, rate, true);                   // samples per second
+  view.setUint32(28, rate * 2, true);               // bytes per second
+  view.setUint16(32, 2, true);                      // bytes per sample
+  view.setUint16(34, 16, true);                     // bits per sample
+  text(36, "data");
+  view.setUint32(40, samples.length * 2, true);     // size of the audio data
+
+  // Each sample goes from -1…1 to a 16-bit whole number.
+  samples.forEach((s, i) => view.setInt16(44 + i * 2, Math.max(-1, Math.min(1, s)) * 32767, true));
+  return new Blob([view], { type: "audio/wav" });
+}
