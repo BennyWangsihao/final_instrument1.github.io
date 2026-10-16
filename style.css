@@ -193,3 +193,35 @@ p {
   background: var(--green);
   border-radius: 50%;
 }
+
+/* Transport bar: stays at the top of the screen while scrolling */
+.transport {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.transport-buttons,
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tempo-label {
+  flex: 1;
+  min-width: 150px;
+  max-width: 270px;
+  margin: auto;
+  color: var(--muted);
+  font: 11px "Courier New", monospace;
+  letter-spacing: 1px;
+}
