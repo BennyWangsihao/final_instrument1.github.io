@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loop Together — Design and Technical Documentation</title>
+  <!-- Keep the styles in a separate file so they are easy to edit. -->
+  <link rel="stylesheet" href="document.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="page-header" id="top">
+    <div class="container">
+      <h1>Loop Together</h1>
+      <p class="subtitle">Design and Technical Documentation · Sihao Wang</p>
+      <!-- These pages should be in the same project folder. -->
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="instrument.html">Open instrument</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="content">
+    <!-- Section links work without JavaScript. -->
+    <nav class="contents" aria-label="On this page">
+      <a href="#about-the-project">Project</a>
+      <a href="#ui-layout-and-visual-choices">UI design</a>
+      <a href="#ux-learning-and-control">UX design</a>
+      <a href="#how-the-sound-works">Sound code</a>
+      <a href="#peer-testing-and-next-steps">Next steps</a>
+    </nav>
+
+    <!-- Explain the project before describing the controls. -->
+    <section class="section" id="about-the-project">
+      <h2>About the project</h2>
+      <p>
+        Loop Together is a browser instrument for making a short rhythm with another
+        person. It responds to the design scenario, Collaboration &amp; Social Creation.
+        Two people can share one device, record their own sounds and arrange them into a
+        loop.
+      </p>
+      <p>
+        My aim is to give people a simple place to start making music together. Users do
+        not need to read music. They can start with the two demo sounds, then try a
+        clap, a tap or a short voice sound.
+      </p>
+    </section>
+
+    <section class="section" id="from-the-prototypes-to-the-final-design">
+      <h2>From the prototypes to the final design</h2>
+      <p>
+        My tutor responded positively to the loop experiments in Area 1, but asked for
+        more detail about what informed the design choices. This helped me see that I
+        need to explain both what a feature does and why I chose it.
+      </p>
+      <p>
+        Prototype 1A used familiar recording and playback buttons. I wanted to explore a
+        starting point that would not require users to learn many controls. Prototype 1B
+        used a circle to show that the sound returns to the beginning. Prototype 1C used
+        numbered boxes so users could choose exactly where a sound appears.
+      </p>
+      <p>
+        For the final version, I chose the boxes because placing sounds is an important
+        part of making a rhythm together. A moving outline shows the current beat,
+        keeping the idea of visible progress from the circle. This is a design choice,
+        rather than a result proven by user testing.
+      </p>
+      <p>
+        The feedback prototypes explored a microphone meter, written instructions and
+        animated sound bars. The final version combines short messages, a meter during
+        recording and a waveform of each saved sound. These have different jobs: the
+        message explains the state, the meter shows incoming sound, and the waveform
+        shows the saved sample.
+      </p>
+    </section>
+
+    <section class="section" id="recording-and-sharing-control">
+      <h2>Recording and sharing control</h2>
+      <p>
+        The instrument has Track A and Track B. Each person can use one track. Both
+        tracks have the same controls so each person has the same way to contribute.
+      </p>
+      <p>
+        Pressing Record asks for microphone access. The user can record for up to three
+        seconds or press Finish sooner. The meter shows whether the microphone is
+        picking up sound. After the recording is ready, Listen plays the whole sample.
+      </p>
+      <p>
+        I chose short recordings to keep the task focused on small sounds. If a new
+        recording fails, the previous sound stays available. The microphone stops when
+        recording ends.
+      </p>
+      <p>
+        Both people can take turns changing their sounds and discussing the result. This
+        version supports working together on one device. It does not connect people on
+        separate devices.
+      </p>
+    </section>
+
+    <section class="section" id="making-the-loop">
+      <h2>Making the loop</h2>
+      <p>
+        Each track has eight numbered beat buttons. Turning a button on places the sound
+        at that beat. Play loop repeats the pattern from beat one to beat eight. The
+        bright outline shows the current position.
+      </p>
+      <p>
+        Users can change the beats, adjust each track&#x27;s volume or mute a track
+        while listening. They need to stop playback before changing the tempo or
+        recording again. Tempo means the speed of the beat.
+      </p>
+      <p>
+        Eight beats give beginners a small pattern to work with, although this limits
+        longer ideas. Separate volume controls let the pair change the balance between
+        their sounds. Mute helps them hear one part at a time.
+      </p>
+
+      <!-- Keep the picture and its caption together. -->
+      <figure class="doc-figure">
+        <a class="figure-link" href="images/loop-pattern.svg" target="_blank" rel="noopener"
+           aria-label="Open a larger version of figure 1 in a new tab">
+          <img src="images/loop-pattern.svg" width="800" height="818"
+               alt="Eight-beat example: Track A plays on beats 1 and 5; Track B plays on 3 and 7. The cycle returns to beat 1 after beat 8." loading="lazy" decoding="async">
+        </a>
+        <figcaption>Figure 1. An example eight-beat pattern. The outline marks the current beat. Design diagram created with ChatGPT. Click the image to enlarge.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Explain the steps a new user follows. -->
+    <section class="section" id="ux-learning-and-control">
+      <h2>UX: learning and control</h2>
+      <p>
+        I want the first action to be simple. Users can press Play loop with the demo
+        sounds before giving microphone permission. This gives them a way to explore the
+        beat buttons before recording their own sounds.
+      </p>
+      <p>
+        The recording process follows a short order: Record, Finish, Listen, then Play
+        loop. Messages explain when the browser needs permission, when it is recording
+        and when the sound is ready. During earlier development, I had problems with
+        buttons that appeared to do nothing. Clear messages are important because a
+        waiting state can otherwise look like a broken button.
+      </p>
+      <p>
+        Users can turn a beat off, change a volume or mute a track without starting
+        again. A failed recording keeps the previous sound. These choices are intended
+        to make trying ideas feel less risky.
+      </p>
+      <p>
+        Two tracks make both contributions visible, but sharing the controls still needs
+        discussion. Peer testing should check whether both people take part and
+        understand how their sounds fit together.
+      </p>
+
+      <!-- Keep the picture and its caption together. -->
+      <figure class="doc-figure">
+        <a class="figure-link" href="images/recording-flow.svg" target="_blank" rel="noopener"
+           aria-label="Open a larger version of figure 2 in a new tab">
+          <img src="images/recording-flow.svg" width="800" height="864"
+               alt="Recording steps: Record and allow the microphone, Finish or wait three seconds, Listen to the saved sound, then choose beats and Play loop." loading="lazy" decoding="async">
+        </a>
+        <figcaption>Figure 2. The recording steps for either track. Demo sounds provide another starting point. Design diagram created with ChatGPT. Click the image to enlarge.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Use plain language to explain the audio code. -->
+    <section class="section" id="how-the-sound-works">
+      <h2>How the sound works</h2>
+      <p>
+        The extended technique is Looping &amp; Sampling. Sampling means recording a
+        sound and using it again. Looping means repeating a pattern.
+      </p>
+      <p>
+        The JavaScript uses MediaRecorder to capture the microphone sound. The Web Audio
+        API then turns the recording into audio data that the browser can play. The code
+        removes very quiet parts at the beginning and end so a tap can start closer to
+        the beat.
+      </p>
+      <p>
+        During playback, the code prepares sounds slightly before they are needed. It
+        uses the browser&#x27;s audio clock to decide when each sound starts. The moving
+        outline follows this timing.
+      </p>
+      <p>
+        Each sound in the loop plays for no longer than one beat. Longer recordings are
+        cut short during the loop, but Listen still plays the full sample. Small fades
+        at the start and end help reduce clicks. This choice suits short sounds better
+        than long phrases.
+      </p>
+    </section>
+
+    <!-- Connect the visual choices to their purpose. -->
+    <section class="section" id="ui-layout-and-visual-choices">
+      <h2>UI: layout and visual choices</h2>
+      <p>
+        I kept the dark background and green colours from the prototypes to give the
+        pages a consistent style. The bright Play button draws attention to the main
+        action. Track A uses lime green, and Track B uses a softer green. Letters and
+        ON/OFF labels provide another way to tell the tracks and beat states apart.
+      </p>
+      <p>
+        The page groups controls by what they affect. Play, Stop and tempo sit above
+        both tracks because they control the shared loop. Record, Listen, Mute and
+        volume stay inside each track because they affect one sound. I chose this layout
+        to make the connection between a control and its result easier to follow.
+      </p>
+      <p>
+        Both tracks use the same order of controls. After learning one track, the user
+        should be able to apply the same steps to the other. Arial, short labels and
+        spaces between buttons keep the page simple. The waveform is based on the saved
+        recording, so it gives information about the sound rather than adding
+        decoration.
+      </p>
+
+      <!-- Keep the picture and its caption together. -->
+      <figure class="doc-figure">
+        <a class="figure-link" href="images/track-layout.svg" target="_blank" rel="noopener"
+           aria-label="Open a larger version of figure 3 in a new tab">
+          <img src="images/track-layout.svg" width="960" height="796"
+               alt="Layout sketch: shared Play, Stop and tempo controls sit above two separate tracks. Each track has Record, Listen, Mute, volume and eight beat buttons." loading="lazy" decoding="async">
+        </a>
+        <figcaption>Figure 3. A layout sketch showing shared controls and separate track controls. The sample shapes and pattern are illustrative. Created with ChatGPT. Click the image to enlarge.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="accessibility-and-screen-sizes">
+      <h2>Accessibility and screen sizes</h2>
+      <p>
+        The interface uses text as well as colour. The current beat has an outline, and
+        selected beats have ON labels. Keyboard users can reach the buttons and sliders,
+        with a visible focus outline showing the selected control. Status messages are
+        marked for screen readers. The page also includes a reduced-motion rule.
+      </p>
+      <p>
+        These features still need practical checks. For example, keyboard focus and the
+        moving beat outline must be easy to tell apart. Text contrast and screen-reader
+        messages also need checking. I do not want to assume that adding these features
+        makes the whole page accessible.
+      </p>
+      <p>
+        The CSS changes the layout for different screen widths:
+      </p>
+      <!-- The table compares the instrument layout at four widths. -->
+      <div class="table-wrap">
+        <table>
+          <caption>Instrument layout at each screen size</caption>
+          <thead>
+            <tr>
+              <th scope="col">Screen width</th>
+              <th scope="col">Layout</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Below 840px</td>
+              <td>Session information moves above the tracks. At 540px and below, the beat buttons form two rows of four.</td>
+            </tr>
+            <tr>
+              <td>840–1199px</td>
+              <td>A narrow session panel sits beside the tracks.</td>
+            </tr>
+            <tr>
+              <td>1200–1600px</td>
+              <td>The panel and spacing become wider.</td>
+            </tr>
+            <tr>
+              <td>Above 1600px</td>
+              <td>The content stays within a maximum width of 1480px.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The smaller layout keeps the same main tasks available. The wider layout adds
+        space without stretching the controls across the whole screen. These rules still
+        need checking in Chrome and Firefox.
+      </p>
+    </section>
+
+    <section class="section" id="saving-the-result">
+      <h2>Saving the result</h2>
+      <p>
+        Download WAV saves one eight-beat cycle using the current pattern, tempo,
+        volumes and mute settings. The two people can keep or share this audio file.
+      </p>
+      <p>
+        Recordings are held in the current tab and are not uploaded by the instrument.
+        Reloading the page clears them and resets the pattern. Users should download
+        their result before leaving.
+      </p>
+    </section>
+
+    <!-- Keep planned tests separate from completed results. -->
+    <section class="section" id="peer-testing-and-next-steps">
+      <h2>Peer testing and next steps</h2>
+      <p>
+        My tutor noted that the A2 testing form had useful questions but did not include
+        the prototype links. This meant the planned class testing could not take place.
+        I need to fix the links and check the complete testing process before asking
+        peers to use the final version.
+      </p>
+      <p>
+        For the next test, I will ask two people to open the instrument, try the demo,
+        record a sound each, change the pattern and download the result. I will watch
+        where they pause or need help. Questions will include: Which button was unclear?
+        How did you know recording had finished? How did you decide what each person
+        would change?
+      </p>
+      <p>
+        I will record the date, actual comments and any changes made after the test. I
+        still need to test microphone access, playback, stopping and downloading in
+        Chrome and Firefox at the four screen sizes. These are planned checks, not
+        completed results.
+      </p>
+    </section>
+
+    <section class="section" id="code-comments-commits-and-community-records">
+      <h2>Code comments, commits and community records</h2>
+      <p>
+        The feedback also showed that my code needed more comments. I will add short
+        notes explaining important decisions, such as why sounds are prepared ahead of
+        time and why microphone tracks are stopped after recording. Comments should
+        explain the reason for the code, not repeat every line.
+      </p>
+      <p>
+        Future commits should describe the actual change. For example, a change to
+        permission messages could use the subject &quot;Add microphone permission
+        messages&quot;. I will keep the original commit history unchanged and export the
+        real final-version logs.
+      </p>
+      <p>
+        The tutor could not access my community documentation. Before submission, I need
+        to check the Miro permissions and the link from my homepage. I will record real
+        discussions, feedback I give to peers and help exchanged during testing. I also
+        need to respond to requests about access or missing information.
+      </p>
+    </section>
+
+    <section class="section" id="current-limits">
+      <h2>Current limits</h2>
+      <p>
+        The instrument supports two people on one device. It does not provide online
+        sessions. Eight beats and short samples give a small starting point, but they
+        limit longer ideas. Reloading clears the sounds and pattern. These limits need
+        to be clear to users, and testing can help decide which changes are worth making
+        next.
+      </p>
+    </section>
+
+    <section class="section" id="ai-acknowledgement">
+      <h2>AI acknowledgement</h2>
+      <p>
+        I used OpenAI ChatGPT to help generate and revise parts of the HTML, CSS,
+        JavaScript, this documentation and its explanatory diagrams.
+      </p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Sihao Wang · Loop Together · Assignment 3</p>
+      <nav aria-label="Project links">
+        <a href="https://github.com/BennyWangsihao">GitHub</a>
+        <a href="https://au.miro.com/app/board/u3jVOf9mYWQ=/?share_link_id=469898230549">Community of Practice</a>
+        <a href="#top">Back to top</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
